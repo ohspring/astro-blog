@@ -2,7 +2,7 @@
 import {formatDate} from "../utils/formatDate";
 import {dealLabel} from "../utils/dealLabel";
 import {t} from '../i18n/utils'
-const {title, date, slug, category, tags, sticky = false} = Astro.props
+const {title, date, slug, category, tags, sticky = false, draft = false} = Astro.props
 ---
 
 <div class="text-skin-base">
@@ -24,9 +24,19 @@ const {title, date, slug, category, tags, sticky = false} = Astro.props
       )
     }
 
+    <!-- draft -->
+    {
+      draft &&
+      <>
+        <div class="divider-vertical"/>
+        <i class="ri-git-pr-draft-line"/>
+        <div>{t('title.draft')}</div>
+      </>
+    }
+
     <!-- category -->
     {
-      category && dealLabel(category).map((categoryName) => (
+      category && dealLabel(category).filter(item => item !== 'uncategorized').map((categoryName) => (
         <div class="divider-vertical"/>
         <i class="ri-folder-3-line"/>
         <a href={"/category/" + categoryName} class="text-wrap break-all hover:text-skin-active">{categoryName}</a>
